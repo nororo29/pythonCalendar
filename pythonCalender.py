@@ -5,7 +5,6 @@ t = turtle.Turtle()
 t.speed(0)
 turtle.bgcolor('#CCC4AD')
 
-# 달력 년도/월/날 입력받기
 year = turtle.textinput("", "년도를 입력해주세요.")
 month = turtle.textinput("", "달(월)을 입력해주세요.")
 day = turtle.textinput("", "날(일)을 입력해주세요.")
@@ -13,16 +12,17 @@ color_list = ["#F1E53E", "#FA645C", "#572BB6"]
 color_list2 = ['#DFA0B8', '#E569A8', '#7F73A8']
 
 
-# 달력 날짜 입력 & 날에 별 그리는 함수
+# function to draw calendar date
+# (p, q) is the location in which calendar is drawn
+# d is the number of days in each month
+# m is the days of the week (sun:0, mon:1, tue:2, wed:3, thu:4, fri:5, sat:6)
 def make_day(p, q, d):
-    # p, q => 날짜가 입력될 자리 시작 좌표 / d => 월별 날짜 수 / m => 1일 요일(일:0,월:1,화:2,수:3,목:4,금:5,토:6)기준
     dt = datetime.datetime(int(year), int(month), int(day))
 
     m = dt.weekday() + 1
     if m == 7:
         m = 0
 
-    # 날짜 리스트, 날짜 자리 해시 테이블
     day_list = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
     day_hash = {1: (p, q), 2: (p + 60, q), 3: (p + 120, q), 4: (p + 180, q), 5: (p + 240, q),
                 6: (p + 300, q), 7: (p + 360, q), 8: (p, q - 40), 9: (p + 60, q - 40), 10: (p + 120, q - 40),
@@ -34,14 +34,14 @@ def make_day(p, q, d):
                 31: (p + 120, q - 160), 32: (p + 180, q - 160), 33: (p + 240, q - 160), 34: (p + 300, q - 160),
                 35: (p + 360, q - 160), 36: (p, q - 200), 37: (p + 60, q - 200), 38: (p + 120, q - 200)}
 
-    # 년도 입력
+    # draw the year
     t.up()
     t.goto(p + 160, q + 60)
     t.down()
     t.pencolor("black")
     t.write(year, font=("", 20, "bold"))
 
-    # 요일 입력
+    # draw the days of the week
     for i in range(7):
         t.up()
         t.goto(p + 60 * i, q + 30)
@@ -49,7 +49,7 @@ def make_day(p, q, d):
         t.pencolor("black")
         t.write(day_list[i])
 
-    # 날짜 입력
+    # draw dates
     i = 1
     while i <= d:
         t.up()
@@ -59,7 +59,7 @@ def make_day(p, q, d):
         t.write(i)
         i += 1
 
-    # 날짜 표시 별 그리기
+    # draw a star at the date which I input
     t.up()
     t.goto(day_hash[int(day) + m])
     t.down()
@@ -70,8 +70,10 @@ def make_day(p, q, d):
         t.fd(20)
         t.rt(144)
 
+        
+####################### Decorating function #######################
 
-# 숫자 1 그리는 함수
+# The function of drawing a number
 def one(x, y):
     for i in range(3):
         t.up()
@@ -95,8 +97,6 @@ def one(x, y):
         t.fd(30)
         t.goto(x - 10 * i, y + 5 * i)
 
-
-# 숫자 2 그리는 함수
 def two(x, y):
     for i in range(3):
         t.up()
@@ -123,8 +123,6 @@ def two(x, y):
         t.lt(135)
         t.fd(115)
 
-
-# 숫자 6,9 그리는 함수
 def six_nine(x, y, a):
     for i in range(3):
         t.up()
@@ -164,7 +162,7 @@ def six_nine(x, y, a):
             t.circle(60)
 
 
-# 꽃 무늬 함수
+# The function of drawing a flower
 def flower(x, y, r, color):
     for i in range(6):
         t.up()
@@ -186,7 +184,7 @@ def flower(x, y, r, color):
         t.rt(30)
 
 
-# 점 무늬 그리기 함수
+# The function of drawing a dot pattern
 def dot(x, y, w, h, color):
     for i in range(w):
         for j in range(h):
@@ -197,7 +195,7 @@ def dot(x, y, w, h, color):
             t.dot()
 
 
-# 정육면체 그리는 함수
+# The function of drawing a cuboid
 def cube(x, y, l):
     for i in [1, 2, 0]:
         t.up()
@@ -218,7 +216,7 @@ def cube(x, y, l):
         t.lt(90)
 
 
-# 물방울 무늬 그리기 함수
+# The function of drawing a rain pattern
 def rain(x, y, l):
     t.color(color_list[0])
     t.up()
@@ -234,9 +232,11 @@ def rain(x, y, l):
     t.end_fill()
 
 
-#####################################################
+############################################################
 
-# 1월
+################## Drawing a calendar ######################
+
+# January
 if month == '1' and int(day) <= 31:
     one(-300, -50)
     t.up()
@@ -273,13 +273,13 @@ if month == '1' and int(day) <= 31:
     t.down()
     make_day(-50, -80, 31)
 
-# 2월
+# February
 elif month == '2':
     day_of_dec = 28
     if ((int(year) % 4 == 0) and (int(year) % 100 != 0)) or (int(year) % 400 == 0):
         day_of_dec = 29
     if int(day) > day_of_dec:
-        print('날짜를 잘못 입력하셨습니다.')
+        print('You entered the date incorrectly.')
         turtle.mainloop()
 
     t.up()
@@ -300,7 +300,7 @@ elif month == '2':
     t.down()
     make_day(-330, -110, day_of_dec)
 
-# 3월
+# March
 elif month == '3' and int(day) <= 31:
     flower(-300, -200, 1, color_list[0])
     t.setheading(20)
@@ -343,7 +343,7 @@ elif month == '3' and int(day) <= 31:
     t.down()
     make_day(-55, -68, 31)
 
-# 4월
+# April
 elif month == '4' and int(day) <= 30:
     t.up()
     t.goto(-150, 50)
@@ -398,7 +398,7 @@ elif month == '4' and int(day) <= 30:
     t.down()
     make_day(-50, -80, 30)
 
-# 5월
+# May
 elif month == '5' and int(day) <= 31:
     cube(-180, -50, 100)
     cube(-180, 250, 100)
@@ -437,7 +437,7 @@ elif month == '5' and int(day) <= 31:
     t.down()
     make_day(-300, -80, 31)
 
-# 6월
+# June
 elif month == '6' and int(day) <= 30:
     rain(100, 400, 250)
     rain(300, 0, 250)
@@ -450,7 +450,7 @@ elif month == '6' and int(day) <= 30:
     t.down()
     make_day(-50, -50, 30)
 
-# 7월
+# July
 elif month == '7' and int(day) <= 31:
     for i in range(5):
         t.up()
@@ -492,7 +492,7 @@ elif month == '7' and int(day) <= 31:
     t.down()
     make_day(-70, -80, 31)
 
-# 8월
+# August
 elif month == '8' and int(day) <= 31:
     t.up()
     t.goto(-300, 300)
@@ -533,9 +533,9 @@ elif month == '8' and int(day) <= 31:
     t.down()
     make_day(-50, 210, 31)
 
-# 9월
+# September
 elif month == '9' and int(day) <= 30:
-    def three_cube(x, y):  # 직육면체 세개 붙여서 연속 그리기 함수
+    def three_cube(x, y):
         cube(x, y, 100)
         cube(x + 173, y, 100)
         cube(x + 173 * 2, y, 100)
@@ -550,7 +550,7 @@ elif month == '9' and int(day) <= 30:
     t.down()
     make_day(-48, -125, 30)
 
-# 10월
+# October
 elif month == '10' and int(day) <= 31:
     def round_sq(x, y):
         t.up()
@@ -597,7 +597,7 @@ elif month == '10' and int(day) <= 31:
     t.down()
     make_day(-100, -100, 31)
 
-# 11월
+# November
 elif month == '11' and int(day) <= 30:
     cube(-200, 150, 150)
     for i in range(3):
@@ -620,7 +620,7 @@ elif month == '11' and int(day) <= 30:
     t.down()
     make_day(-320, -80, 30)
 
-# 12월
+# December
 elif month == '12' and int(day) <= 31:
     for i in range(3):
         for j in range(6):
@@ -635,7 +635,7 @@ elif month == '12' and int(day) <= 31:
 
 #######################################################
 else:
-    print('날짜를 잘못 입력하셨습니다.')
+    print('You entered the date incorrectly.')
 
 t.hideturtle()
 turtle.mainloop()
