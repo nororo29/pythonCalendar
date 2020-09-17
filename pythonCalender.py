@@ -5,9 +5,9 @@ t = turtle.Turtle()
 t.speed(0)
 turtle.bgcolor('#CCC4AD')
 
-year = turtle.textinput("", "년도를 입력해주세요.")
-month = turtle.textinput("", "달(월)을 입력해주세요.")
-day = turtle.textinput("", "날(일)을 입력해주세요.")
+year = turtle.textinput("", "Please enter a year.")
+month = turtle.textinput("", "Please enter a month.")
+day = turtle.textinput("", "Please enter a day.")
 color_list = ["#F1E53E", "#FA645C", "#572BB6"]
 color_list2 = ['#DFA0B8', '#E569A8', '#7F73A8']
 
