@@ -8,8 +8,8 @@ Python turtle-graphics calendar using the various pattern
 
 ## Feature
 - Different drawing per month
-- 윤년 계산
-- Using function which make different pattern
+- Leap year calculator
+- Using hash tables which determine a position of day
 
 ## Screenshot
 
